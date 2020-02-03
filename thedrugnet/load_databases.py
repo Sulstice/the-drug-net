@@ -48,7 +48,7 @@ class LoadDatabases(object):
         "withdrawn": "sdf",
     }
 
-    def __init__(self, databases_to_load = [], load_raw = False, load_subset = False, load_training_set = False):
+    def __init__(self, databases_to_load = []):
 
         """
 
@@ -66,22 +66,63 @@ class LoadDatabases(object):
 
             Withdrawn Database: Drugs that were withdrawn from the market: http://cheminfo.charite.de/withdrawn/index.html
 
+
         """
 
         self.databases_to_load = databases_to_load
-        self.load_raw = load_raw
-
         databases = self._load_databases()
 
 
-    def _detect_pickle_cache(self):
+    def load_raw(self):
 
         """
 
-        Detect the pickle cache version of a database
-        :return:
+        Load the raw databases as requested per the user and return in a dataframe
+
         """
 
+        pass
+
+    def load_clean(self):
+
+        """
+
+        Load the cleaned versions of the databases
+
+        """
+
+        pass
+
+    def load_subset(self, amount_of_rows_in_subset = 100, clean = True):
+
+        """
+
+        Load a subset of the dataframe.
+
+        Arguments:
+            amount_of_rows_in_subset (Int): How many rows of the data the user would like in their subset.
+                                            Default: 100
+                                            Note: We will maintain a subset of 100 for faster loading.
+            clean (Bool): Load the clean version of the database, if not raw (this will take significantly longer)
+                          Default: True
+        """
+
+        pass
+
+    def load_training(self, return_complement = True):
+
+        """
+
+        Arguments:
+            return_complement (Bool): If return the complement then return two values of 33% Training, 66% Dataset
+        Returns:
+            training_dataframe (Pandas DataFrame): dataframe of the 33% for training data
+            training_complement_dataframe (Pandas DataFrame): dataframe of the 66% for the training data.
+
+
+        """
+
+        pass
 
     def _load_databases(self):
 
@@ -92,31 +133,26 @@ class LoadDatabases(object):
         Returns:
             databases (Pandas DF): the databases loaded into a dataframe
 
+
+        UNIVERSE_CHEMICAL_DATAFRAME = {
+
+            column_headers: *"smiles"*, "molecular_weight", "logp", "h_bond_donor", "h_bond_acceptor", "rotatable_bonds",
+                            "number_of_atoms", "molar_refractivity", "topological_surface_area_mapping", "formal_charge",
+                            "heavy_atoms", "num_of_rings"
+
+
         """
 
         # imports
         # -------
         import os
+        from pathlib import Path
+
 
         # get the root directory
-        root_directory = os.path.dirname(os.path.abspath(__file__)) + "/raw_resources"
-
-
-        sorted_databases = sorted(self.databases_to_load)
-        file_name = '_'.join(sorted_databases) + ".sdf"
-
-        # First we need to detect if this has a pickle cache file
-        for sub_directories, directories, files in os.walk(root_directory):
-            for file in files:
-                if file == file_name:
-                    pass
-
+        root_directory = str(Path(__file__).parent.parent) + '/databases'
 
 # Testing purposes
 if __name__ == '__main__':
 
-    import pandas as pd
-
-    binding_dataframe = pd.read_csv('/Users/sulimansharif/projects/the-drug-net/thedrugnet/raw_resources/BindingDB_All.tsv',sep='\t', error_bad_lines=False)
-
-    print (binding_dataframe)
+    LoadDatabases(databases_to_load=["binding"])
