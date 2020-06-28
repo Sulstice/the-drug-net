@@ -5,7 +5,7 @@ The Drug Net: Easily Distributed Chemical Data for Everyone!
 ![Python](https://img.shields.io/badge/python-3.7-blue.svg)
 
 <p align="center">
-  <img width="200" height="300" src="images/logoshaker.png">
+  <img width="1000" height="200" src="images/the_drug_net_logo.png">
 </p>
 
 With the rise of chemical data being digitally recorded motivates the need for a hub for centralized data that is 
